@@ -29,6 +29,9 @@ public class VerbCache {
 		if (ids == null || ids.size() == 0) {
 			ids = new ArrayList<>();
 			repo.findAll().map(Verb::getId).doOnNext(i -> ids.add(i)).subscribe();
+			return Mono.fromSupplier(() -> new Verb())
+				.doOnNext(v -> v.setId("0"))
+				.doOnNext(v -> v.setContinuous("Hello"));
 		}
 		Verb defaultVerb = new Verb();
 		return Mono.fromSupplier(() -> ids.get((int)(Math.random() * ids.size())))
